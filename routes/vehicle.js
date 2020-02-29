@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const Vehicles = require('../models/Vehicle');
+const Locations = require('../models/Location');
+const Sequelize = require('sequelize');
 
 router.get('/', (req, res) => {
     Vehicles.findAll()
@@ -62,8 +64,19 @@ router.post('/create-vehicle', (req, res) => {
         vehicleStatus: req.body.vehicleStatus,
         parkingCharge: req.body.parkingCharge
     }).then( (response) => {
-        res.status(200)
-            .json(response);
+        Locations.update({
+            availableSlots: Sequelize.literal('availableSlots - 1')   
+        }, {
+            where: {
+                locID: response.locID
+            }
+        }).then( (response) => {
+            res.status(200)
+                .json(response);
+        }).catch( (err) => {
+            console.log(err);
+        })
+        
     }).catch( (err) => {
         console.log(err);
     })
