@@ -15,6 +15,23 @@ router.get('/', (req, res) => {
             })
 })
 
+router.get('/:locID', (req, res) => {
+    Locations.findOne({
+        where: {
+            locID: req.params.locID
+        }
+    })
+            .then( (locations) => {
+                res.status(200)
+                    .json(locations);
+            })
+            .catch( (err) => {
+                res.status(404)
+                    .json(err);
+                return;
+            })
+})
+
 router.delete('/delete-location/:locID', (req, res) => {
     if(req.params.locID) {
         Locations.destroy({
