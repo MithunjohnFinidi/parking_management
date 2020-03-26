@@ -10,7 +10,7 @@ router.get('/statistics/:selectedDay/:locID', (req, res) => {
     const query = `select HOUR(vehicleIn) as time, DATE(VehicleIn) as date, COUNT(*) as count FROM vehicles
     JOIN locations ON vehicles.locID = locations.locID
     WHERE locations.locID = :selectedLocationId and DAYNAME(vehicleIn) = :selectedDay
-    GROUP BY HOUR(vehicleIn), DAY(vehicleIn)
+    GROUP BY HOUR(vehicleIn), DAYNAME(vehicleIn)
     ORDER BY DATE(vehicleIn)`;
 
     
