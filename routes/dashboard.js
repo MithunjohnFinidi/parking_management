@@ -5,7 +5,7 @@ const Vehicles = require('../models/Vehicle');
 const dbInstance = require('../config/db');
 const Sequelize = require('sequelize');
 
-router.get('/statistics', (req, res) => {
+router.get('/statistics/:selectedDay/:locID', (req, res) => {
 
     const query = `select HOUR(vehicleIn) as time, DATE(VehicleIn) as date, COUNT(*) as count FROM vehicles
     JOIN locations ON vehicles.locID = locations.locID
@@ -17,11 +17,12 @@ router.get('/statistics', (req, res) => {
     dbInstance
     .query(query, {
         replacements: {
-            selectedDay: req.body.selectedDay,
-            selectedLocationId: req.body.selectedLocationId
+            selectedDay: req.params.selectedDay,
+            selectedLocationId: req.params.locID
         },
         type: Sequelize.QueryTypes.SELECT
     }).then( (data) => {
+        console.log(data)
         res.status(200)
                     .json(data);
     }).catch((error)=>{
