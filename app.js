@@ -43,6 +43,7 @@ app.use('/users', usersRouter);
 app.use('/locations', require('./routes/location'));
 app.use('/bookings', require('./routes/booking'));
 app.use('/vehicles', require('./routes/vehicle'));
+app.use('/dashboard', require('./routes/dashboard'));
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
