@@ -13,7 +13,6 @@ router.get('/statistics/:selectedDay/:locID', (req, res) => {
     GROUP BY HOUR(vehicleIn), DAYNAME(vehicleIn)
     ORDER BY DATE(vehicleIn)`;
 
-    
     dbInstance
     .query(query, {
         replacements: {
@@ -27,6 +26,26 @@ router.get('/statistics/:selectedDay/:locID', (req, res) => {
                     .json(data);
     }).catch((error)=>{
         console.log(error)
+        res.status(404)
+                    .json(error);
+                return;
+    })
+})
+
+router.get('/percentage/:selectedDay/:selectedID', (req, res) => {
+    const query = `select count(vehicleID) as count from vehicles where locID = :selectedID
+                    and DAYNAME(vehicleIn) = :selectedDay`;
+    dbInstance
+    .query(query, {
+        replacements: {
+            selectedDay: req.params.selectedDay,
+            selectedID: req.params.selectedID
+        },
+        type: Sequelize.QueryTypes.SELECT
+    }).spread( (data) => {
+        res.status(200)
+                    .json(data);
+    }).catch((error)=>{
         res.status(404)
                     .json(error);
                 return;
