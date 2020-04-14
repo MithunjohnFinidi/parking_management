@@ -17,6 +17,8 @@ db.authenticate().then( () => {
 
 var app = express();
 
+app.set('port', process.env.PORT || 8080);
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -48,6 +50,8 @@ app.use('/dashboard', require('./routes/dashboard'));
 app.use(function(req, res, next) {
   next(createError(404));
 });
+
+app.listen(app.get('port'));
 
 // error handler
 app.use(function(err, req, res, next) {
