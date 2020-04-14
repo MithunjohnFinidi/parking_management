@@ -51,7 +51,7 @@ app.use(function(req, res, next) {
   next(createError(404));
 });
 
-app.listen(app.get('port'));
+// app.listen(app.get('port'));
 
 // error handler
 app.use(function(err, req, res, next) {
